@@ -36,9 +36,6 @@
     <Content Include="Src\Redshirts\Classes\Redshirts_ArmoryPromotionPsiOpListener.uc">
       <SubType>Content</SubType>
     </Content>
-    <Content Include="Src\Redshirts\Classes\Redshirts_ScreenListener.uc">
-      <SubType>Content</SubType>
-    </Content>
     <Content Include="Src\Redshirts\Classes\Redshirts_AfterActionListener.uc">
       <SubType>Content</SubType>
     </Content>
