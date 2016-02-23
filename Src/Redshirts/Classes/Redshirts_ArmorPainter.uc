@@ -15,6 +15,7 @@ var protected config ERedshirtsThresholdMode Mode;		// Which value to look at
 var protected config int Threshold;						// The rank/missions/kills to reach to get armor colors back
 var protected config int PrimaryColor;					// Primary "red" color		7
 var protected config int SecondaryColor;				// Secondary				80
+var protected config bool ExcludeCharacterPool;			// Don't color character pool soldiers
 
 var XGCharacterGenerator Chargen;						// Used just to get a single config value...
 var bool NewSoldier_ForceColors;						// Forces units to use color selections 0-6 when being spawned
@@ -79,13 +80,26 @@ function CheckAndPaint(XComGameState_Unit Unit, int iValue)
 	local int iColors;
 	local int SkipColors;
 	local int DefaultColors;
+	local bool bPaint;
 	local XComGameState_Unit PoolUnit;
 	
 	if (iValue < Threshold)
 	{
-		Unit.kAppearance.iArmorTint = PrimaryColor;	
-		Unit.kAppearance.iArmorTintSecondary = SecondaryColor;
-		Unit.StoreAppearance();
+
+		if (ExcludeCharacterPool)
+		{
+			// Check if soldier is from the characterpool.
+			// It seems the only way is to compare names
+			PoolUnit = CPM.GetCharacter(Unit.GetFullName());
+			bPaint = (PoolUnit == none);
+		}
+		
+		if (bPaint)
+		{
+			Unit.kAppearance.iArmorTint = PrimaryColor;	
+			Unit.kAppearance.iArmorTintSecondary = SecondaryColor;
+			Unit.StoreAppearance();
+		}
 	}
 	else
 	{
